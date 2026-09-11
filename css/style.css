@@ -678,37 +678,6 @@ nav a.active {
   }
 }
 
-/* --- TRUST BAR --- */
-.trust-bar {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-4) 0;
-}
-
-.trust-bar-inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-6);
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.trust-item .icon {
-  font-size: 1.3rem;
-  color: var(--color-primary);
-}
-
 /* --- SERVICE CARDS --- */
 .services-grid {
   display: grid;
@@ -1142,7 +1111,7 @@ footer {
 
 /* --- PAGE HERO (inner pages) --- */
 .page-hero {
-  padding: 140px 0 80px;
+  padding: 135px 0 75px;
   background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
   position: relative;
   overflow: hidden;
@@ -1553,38 +1522,73 @@ footer {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
-  padding: var(--space-8);
   max-width: 700px;
   margin: 0 auto;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
-.oxfordshire-map {
+#oxfordshire-map {
   width: 100%;
-  height: auto;
+  height: 480px;
   display: block;
+  background: var(--color-bg-alt);
+  font-family: var(--font-family);
 }
 
-.pulse-ring {
-  animation: pulse-map 2.5s infinite;
+.leaflet-container {
+  font-family: var(--font-family);
 }
 
-@keyframes pulse-map {
+.leaflet-control-zoom a {
+  color: var(--color-text) !important;
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
 
-  0%,
-  100% {
-    opacity: 0.2;
-    r: 14;
-  }
+.leaflet-control-zoom a:hover {
+  color: var(--color-primary) !important;
+  background: var(--color-surface-alt) !important;
+}
 
-  50% {
-    opacity: 0.5;
-    r: 18;
-  }
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.leaflet-popup-content {
+  font-family: var(--font-family);
+  line-height: 1.5;
+}
+
+.leaflet-popup-content strong {
+  color: var(--color-primary);
+}
+
+.leaflet-tooltip {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-family);
+  font-weight: 600;
+}
+
+.map-unavailable {
+  display: grid;
+  min-height: 100%;
+  padding: var(--space-8);
+  place-items: center;
+  text-align: center;
 }
 
 .map-caption {
   text-align: center;
-  margin-top: var(--space-4);
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
   font-size: var(--font-size-sm);
   color: var(--color-muted);
 }
@@ -1597,6 +1601,12 @@ footer {
   background: var(--color-primary);
   margin-right: var(--space-2);
   vertical-align: middle;
+}
+
+@media (max-width: 640px) {
+  #oxfordshire-map {
+    height: 380px;
+  }
 }
 
 /* --- AREAS (old grid, kept for fallback) --- */
@@ -1693,5 +1703,87 @@ footer {
 
   .stats-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- LIVE AVAILABILITY INDICATOR --- */
+.top-status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-success);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--color-success);
+  animation: pulse 2s infinite;
+}
+
+/* Enhanced Header Call Button */
+.header-call-btn {
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Enhanced Hero Formatting */
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 112px;
+  padding-bottom: 70px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  margin-bottom: var(--space-4);
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.hero .subtitle {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: rgba(241, 245, 249, 0.82);
+  margin-bottom: var(--space-8);
+  max-width: 640px;
+  line-height: 1.65;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.hero-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 110px;
+    padding-bottom: 45px;
+    min-height: auto;
   }
 }

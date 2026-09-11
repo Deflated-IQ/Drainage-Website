@@ -101,6 +101,72 @@ document.addEventListener('DOMContentLoaded', () => {
     stats.forEach(el => statObserver.observe(el));
   }
 
+  // --- Oxfordshire Service-Area Map ---
+  const mapElement = document.getElementById('oxfordshire-map');
+  if (mapElement) {
+    if (!window.L) {
+      mapElement.innerHTML = '<p class="map-unavailable">Our interactive map could not load. Please call 01865 236211 to confirm service in your area.</p>';
+    } else {
+      const serviceLocations = [
+        { name: 'Oxford', coordinates: [51.7520, -1.2577], primary: true },
+        { name: 'Abingdon', coordinates: [51.6708, -1.2875] },
+        { name: 'Banbury', coordinates: [52.0629, -1.3398] },
+        { name: 'Bicester', coordinates: [51.8994, -1.1536] },
+        { name: 'Chipping Norton', coordinates: [51.9410, -1.5460] },
+        { name: 'Didcot', coordinates: [51.6080, -1.2421] },
+        { name: 'Eynsham', coordinates: [51.7801, -1.3740] },
+        { name: 'Faringdon', coordinates: [51.6560, -1.5860] },
+        { name: 'Henley-on-Thames', coordinates: [51.5340, -0.9040] },
+        { name: 'Kidlington', coordinates: [51.8213, -1.2885] },
+        { name: 'Thame', coordinates: [51.7489, -0.9762] },
+        { name: 'Wallingford', coordinates: [51.5990, -1.1240] },
+        { name: 'Wantage', coordinates: [51.5881, -1.4250] },
+        { name: 'Witney', coordinates: [51.7859, -1.4850] },
+        { name: 'Woodstock', coordinates: [51.8486, -1.3510] }
+      ];
+
+      const serviceMap = L.map(mapElement, {
+        scrollWheelZoom: false,
+        zoomControl: true,
+        preferCanvas: true
+      });
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        subdomains: 'abcd',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      }).addTo(serviceMap);
+
+      L.circle([51.7520, -1.2577], {
+        radius: 35000,
+        color: '#f97316',
+        weight: 2,
+        fillColor: '#f97316',
+        fillOpacity: 0.12,
+        interactive: false
+      }).addTo(serviceMap);
+
+      serviceLocations.forEach((location) => {
+        const marker = L.circleMarker(location.coordinates, {
+          radius: location.primary ? 9 : 6,
+          color: '#fff7ed',
+          weight: 2,
+          fillColor: '#f97316',
+          fillOpacity: 1
+        }).addTo(serviceMap);
+
+        marker.bindTooltip(location.name, { direction: 'top', offset: [0, -8] });
+        marker.bindPopup(location.primary
+          ? '<strong>Oxford</strong><br>Our local service base'
+          : `<strong>${location.name}</strong><br>Part of our Oxfordshire service area`);
+      });
+
+      const serviceBounds = L.latLngBounds(serviceLocations.map((location) => location.coordinates));
+      serviceMap.fitBounds(serviceBounds, { padding: [32, 32] });
+      window.requestAnimationFrame(() => serviceMap.invalidateSize());
+    }
+  }
+
   // --- Smooth scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
